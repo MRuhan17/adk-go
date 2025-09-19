@@ -12,23 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// package run handles command line parameters for "run"
-package run
+package deploy
 
 import (
 	"github.com/spf13/cobra"
-	"google.golang.org/adk/cmd/cli/root"
+	"google.golang.org/adk/cmd/adkgo/root"
 )
 
 // deployCmd represents the deploy command
-var RunCmd = &cobra.Command{
-	Use:   "run",
-	Short: "Runs components",
+var DeployCmd = &cobra.Command{
+	Use:   "deploy",
+	Short: "Makes deployment to various platforms easy",
 	Long:  `Please see subcommands for details`,
 	Run: func(cmd *cobra.Command, args []string) {
 	},
 }
 
 func init() {
-	root.RootCmd.AddCommand(RunCmd)
+	root.RootCmd.AddCommand(DeployCmd)
 }
