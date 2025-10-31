@@ -27,13 +27,16 @@ type Service interface {
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 	List(context.Context, *ListRequest) (*ListResponse, error)
 	Delete(context.Context, *DeleteRequest) error
-	// AppendEvent is used to append an event to a session.
+	// AppendEvent is used to append an event to a session, and remove temporary state keys from the event.
 	AppendEvent(context.Context, Session, *Event) error
 }
 
 // InMemoryService returns an in-memory implementation of the session service.
 func InMemoryService() Service {
-	return &inMemoryService{}
+	return &inMemoryService{
+		appState:  make(map[string]stateMap),
+		userState: make(map[string]map[string]stateMap),
+	}
 }
 
 // VertexAIService returns VertextAiSessionService implementation.
