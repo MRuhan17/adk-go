@@ -207,6 +207,9 @@ func (a *agent) internal() *agent {
 }
 
 func getAuthorForEvent(ctx InvocationContext, event *session.Event) string {
+		if event.LLMResponse.Content != nil && event.LLMResponse.Content.Role == genai.RoleUser {
+					return genai.RoleUser
+				}
 	return ctx.Agent().Name()
 }
 
