@@ -285,20 +285,14 @@ func runAfterAgentCallbacks(ctx InvocationContext) (*session.Event, error) {
 		event.Branch = ctx.Branch()
 		event.Actions = *callbackCtx.actions
 		
-		// NOTE:
-        //  intentionally do NOT call ctx.EndInvocation() here.
-        //
-        // Reason:
-        // - After-agent callbacks do not check ctx.Ended(), so marking the
-        //   invocation as ended has no effect on execution flow.
-        // - The Python ADK implementation also omits ending the invocation here,
-        //   so matching that behavior ensures cross-language consistency.
-        // - The invocation end flag is local to the current subagent and is not
-        //   used by anything after runAfterAgentCallbacks, so setting it would
-        //   be misleading to future contributors.
-        //
-        // Leaving this unimplemented is intentional.
-        // TODO: revisit only if the after-callback flow changes in future.
+// NOTE: Intentionally not calling ctx.EndInvocation() here.
+//
+// Rationale:
+// - After-agent callbacks do not check ctx.Ended(), so ending the invocation here has no effect on the execution flow.
+// - This behavior is consistent with the Python ADK implementation.
+// - The invocation end flag is local to this subagent's context and is not used after this function returns, so setting it could be misleading.
+//
+// TODO: Revisit this decision if the after-callback flow changes in the future.
 
 		return event, nil
 	}
